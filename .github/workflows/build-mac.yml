@@ -1,0 +1,32 @@
+name: MacOS Build
+
+on: [pull_request, push]
+
+jobs:
+  build_macos:
+    name: MacOS Build
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Generate CMake
+        run: cmake -B build -C cmake/caches/PredefinedParams.cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=13.0
+
+      - name: Build
+        run: make -C build -j$(getconf _NPROCESSORS_ONLN)
+
+      - name: Prepare Artifacts
+        run: |
+          mkdir -p dxcompiler/bin dxcompiler/lib
+          cp -cpP build/bin/dx* dxcompiler/bin
+          cp -cpP build/lib/*.dylib dxcompiler/lib
+          tar --options xz:compression-level=9 -cvJf dxcompiler.tar.xz dxcompiler
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: dxcompiler
+          path: dxcompiler.tar.xz
