@@ -45,7 +45,9 @@
 
 #include "Support/DXIncludes.h"
 #include "dxc/Support/microcom.h"
+#ifdef _WIN32
 #include <atlbase.h>
+#endif
 
 #include "dxc/Support/FileIOHelper.h"
 #include "dxc/dxcapi.h"

@@ -682,7 +682,7 @@ add_subdirectory(utils/hct)
 if(EXISTS "${LLVM_MAIN_SRC_DIR}/external")
   add_subdirectory(external) # SPIRV change
 endif()
-include_directories(AFTER ${DIRECTX_HEADER_INCLUDE_DIR}/directx ${DIRECTX_HEADER_INCLUDE_DIR}/wsl/stubs)
+include_directories(AFTER ${DIRECTX_HEADER_INCLUDE_DIR}/directx)
 
 # HLSL - Change End
 

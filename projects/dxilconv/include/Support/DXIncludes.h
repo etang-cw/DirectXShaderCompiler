@@ -20,6 +20,7 @@
 #define NOMINMAX 1
 #define WIN32_LEAN_AND_MEAN 1
 #define VC_EXTRALEAN 1
+#ifdef _WIN32
 #include <windows.h>
 #include <strsafe.h>
 
@@ -27,10 +28,17 @@
 #include <d3dcommon.h>
 #include <d3d11.h>
 #include <d3d12.h>
-#include "dxc/Support/d3dx12.h"
-#include "DxbcSignatures.h"
 #include <d3dcompiler.h>
 #include <wincrypt.h>
+#else
+#include "dxc/Support/WinFunctions.h"
+#define interface struct
+#include "dxc/wsl/d3d11.h"
+#include "dxc/wsl/d3dcommon.h"
+#undef interface
+#endif
+
+#include "DxbcSignatures.h"
 
 #ifndef DECODE_D3D10_SB_TOKENIZED_PROGRAM_TYPE
 #include "dxc\Support\d3d12TokenizedProgramFormat.hpp"

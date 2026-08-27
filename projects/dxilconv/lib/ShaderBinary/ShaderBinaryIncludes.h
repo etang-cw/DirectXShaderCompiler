@@ -10,6 +10,7 @@
 #pragma once
 // clang-format off
 // Includes on Windows are highly order dependent.
+#ifdef _WIN32
 #include "windows.h"
 
 #include <assert.h>
@@ -18,8 +19,11 @@
 #include <intsafe.h>
 #include <dxgiformat.h>
 #include <d3d12.h>
+#else
+#include "dxc/Support/WinFunctions.h"
+#include <assert.h>
+#endif
 #define D3DX12_NO_STATE_OBJECT_HELPERS
-#include "dxc/Support/d3dx12.h"
 #include "dxc/Support/d3d12TokenizedProgramFormat.hpp"
 #include "ShaderBinary/ShaderBinary.h"
 // clang-format on

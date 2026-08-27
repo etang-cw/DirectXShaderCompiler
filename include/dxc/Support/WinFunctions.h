@@ -19,6 +19,13 @@
 
 #ifndef _WIN32
 
+//===--------------------------- STRSAFE --------------------------===//
+
+#define STRSAFE_E_INSUFFICIENT_BUFFER ((HRESULT)0x8007007A)
+#define STRSAFE_E_INVALID_PARAMETER ((HRESULT)0x80070057)
+#define STRSAFE_E_END_OF_FILE ((HRESULT)0x80070026)
+
+HRESULT StringCchCopyA(LPSTR dst, size_t dst_size, LPCSTR src);
 HRESULT StringCchPrintfA(char *dst, size_t dstSize, const char *format, ...);
 HRESULT UIntAdd(UINT uAugend, UINT uAddend, UINT *puResult);
 HRESULT IntToUInt(int in, UINT *out);
@@ -47,6 +54,8 @@ BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite,
                LPDWORD lpNumberOfBytesWritten, void *lpOverlapped);
 
 BOOL CloseHandle(HANDLE hObject);
+
+BOOL QueryPerformanceCounter(LARGE_INTEGER *lpPerformanceCount);
 
 // Windows-specific heap functions
 HANDLE HeapCreate(DWORD flOptions, SIZE_T dwInitialSize, SIZE_T dwMaximumSize);

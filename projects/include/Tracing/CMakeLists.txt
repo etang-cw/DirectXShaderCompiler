@@ -4,6 +4,7 @@
 
 # Create the header in a temporary file and only update when necessary,
 # to avoid invalidating targets that depend on it.
+if(WIN32)
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tmpdxcruntimeetw.h
   COMMAND mc -r ${CMAKE_CURRENT_BINARY_DIR} -h ${CMAKE_CURRENT_BINARY_DIR} -p DxcRuntimeEtw_ -um -z tmpdxcruntimeetw ${CMAKE_CURRENT_SOURCE_DIR}/DxcRuntime.man
@@ -40,3 +41,7 @@ add_custom_target(DxcRuntimeEtw
 
 # Not quite library, but close enough.
 set_target_properties(DxcRuntimeEtw PROPERTIES FOLDER "Dxilconv libraries")
+else()
+add_library(DxcRuntimeEtw INTERFACE)
+target_include_directories(DxcRuntimeEtw INTERFACE ..)
+endif()

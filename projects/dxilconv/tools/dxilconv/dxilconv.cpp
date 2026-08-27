@@ -18,12 +18,18 @@
 
 #include "Tracing/DxcRuntimeEtw.h"
 
+#ifdef _WIN32
 #define DXC_API_IMPORT
+#else
+#define DXC_API_IMPORT __attribute__((visibility("default")))
+#endif
 
 #include "dxc/config.h"
 #include "dxc/dxcisense.h"
 #include "dxc/dxctools.h"
+#ifdef _WIN32
 #include "dxcetw.h"
+#endif
 
 #include "DxbcConverter.h"
 
@@ -85,6 +91,9 @@ DXC_API_IMPORT HRESULT __stdcall DxcCreateInstance2(IMalloc *pMalloc,
 
 // C++ exception specification ignored except to indicate a function is not
 // __declspec(nothrow)
+#ifndef _WIN32
+__attribute__((constructor))
+#endif
 static HRESULT InitMaybeFail() throw() {
   HRESULT hr;
   bool memSetup = false;
@@ -107,6 +116,7 @@ Cleanup:
   return hr;
 }
 
+#ifdef _WIN32
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD Reason, LPVOID) {
   if (Reason == DLL_PROCESS_ATTACH) {
     EventRegisterMicrosoft_Windows_DxcRuntime_API();
@@ -135,3 +145,11 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD Reason, LPVOID) {
 
   return TRUE;
 }
+#else
+__attribute__((destructor)) void Deinit() {
+	::llvm::sys::fs::CleanupPerThreadFileSystem();
+	::llvm::llvm_shutdown();
+	DxcClearThreadMalloc();
+	DxcCleanupThreadMalloc();
+}
+#endif

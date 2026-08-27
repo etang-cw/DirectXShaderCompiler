@@ -1,6 +1,8 @@
 # Build DxbcConverter.lib.
 
+if(WIN32)
 find_package(D3D12 REQUIRED)
+endif()
 
 add_dxilconv_project_library(DxbcConverter
   DxbcConverter.cpp
@@ -13,12 +15,15 @@ target_link_libraries(DxbcConverter PUBLIC
 )
 
 add_dependencies(DxbcConverter intrinsics_gen DxcRuntimeEtw DxilConvPasses)
+if(WIN32)
+target_include_directories(DxbcConverter PRIVATE ${D3D12_INCLUDE_DIRS})
+else()
+target_include_directories(DxbcConverter PRIVATE ../../../../include/dxc/wsl)
+endif()
 
 target_include_directories(DxbcConverter
 PUBLIC
   $<BUILD_INTERFACE:${DXC_PROJECTS_SOURCE_DIR}/include>
   $<BUILD_INTERFACE:${DXC_PROJECTS_BINARY_DIR}/include>
   $<INSTALL_INTERFACE:include>
-PRIVATE
-  ${D3D12_INCLUDE_DIRS}
 )

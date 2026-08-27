@@ -23,6 +23,20 @@
 #include "dxc/Support/WinFunctions.h"
 #include "dxc/Support/microcom.h"
 
+HRESULT StringCchCopyA(LPSTR dst, size_t dst_size, LPCSTR src) {
+  if (!dst_size)
+    return STRSAFE_E_INVALID_PARAMETER;
+  size_t src_len = strnlen(src, dst_size);
+  if (src_len == dst_size) {
+    memcpy(dst, src, dst_size - 1);
+    dst[dst_size - 1] = '\0';
+    return STRSAFE_E_INSUFFICIENT_BUFFER;
+  } else {
+    memcpy(dst, src, src_len + 1);
+    return S_OK;
+  }
+}
+
 HRESULT StringCchPrintfA(char *dst, size_t dstSize, const char *format, ...) {
   va_list args;
   va_start(args, format);
@@ -234,6 +248,17 @@ BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite,
 BOOL CloseHandle(HANDLE hObject) {
   int fd = (size_t)hObject;
   return !close(fd);
+}
+
+BOOL QueryPerformanceCounter(LARGE_INTEGER *lpPerformanceCount) {
+#ifdef __APPLE__
+	lpPerformanceCount->QuadPart = clock_gettime_nsec_np(CLOCK_MONOTONIC_RAW);
+#else
+	struct timespec tp;
+	clock_gettime(CLOCK_MONOTONIC, &tp);
+	lpPerformanceCount->QuadPart = tp.tv_sec * 1000000000 + tp.tv_nsec;
+#endif
+	return TRUE;
 }
 
 // Half-hearted implementation of a heap structure

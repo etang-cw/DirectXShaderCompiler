@@ -29,7 +29,8 @@ extern "C"
                                                         _In_ REFIID riid,
                                                         _Out_ LPVOID *ppv);
 
-struct __declspec(uuid("5F956ED5-78D1-4B15-8247-F7187614A041")) IDxbcConverter
+CROSS_PLATFORM_UUIDOF(IDxbcConverter, "5F956ED5-78D1-4B15-8247-F7187614A041")
+struct IDxbcConverter
     : public IUnknown {
   /// Create DXIL container out of DXBC shader blob.
   virtual HRESULT STDMETHODCALLTYPE Convert(

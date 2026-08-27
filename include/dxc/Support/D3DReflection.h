@@ -18,7 +18,7 @@
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 // Need to instruct non-windows compilers on what an interface is
 #define interface struct
-#include "d3d12shader.h"
+#include "dxc/wsl/d3d12shader.h"
 #undef interface
 #pragma GCC diagnostic pop
 #else

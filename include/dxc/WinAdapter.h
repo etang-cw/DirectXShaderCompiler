@@ -253,6 +253,7 @@
 #define _In_opt_z_
 #define _In_count_(size)
 #define _In_bytecount_(size)
+#define _In_reads_bytes_(size)
 
 #define _Out_
 #define _Out_opt_
@@ -261,20 +262,32 @@
 #define _Outptr_result_z_
 #define _Outptr_opt_result_z_
 #define _Outptr_result_maybenull_
+#define _Outptr_result_maybenull_z_
 #define _Outptr_result_nullonfailure_
 #define _Outptr_result_buffer_maybenull_(ptr)
 #define _Outptr_result_buffer_(ptr)
+#define _Outptr_result_bytebuffer_maybenull_(size)
+
+#define __in_range(start, end)
+#define __in_ecount(size)
+#define __out_ecount(size)
+#define __field_ecount_part(size, index)
 
 #define _COM_Outptr_
 #define _COM_Outptr_opt_
 #define _COM_Outptr_result_maybenull_
 #define _COM_Outptr_opt_result_maybenull_
 
+#define __override
+
+#define CONST const
 #define THIS_
 #define THIS
 #define PURE = 0
 
 #define _Maybenull_
+
+#define _UI8_MAX UINT8_MAX
 
 #define __debugbreak()
 
@@ -303,7 +316,7 @@ typedef unsigned char *LPBYTE;
 typedef BYTE BOOLEAN;
 typedef BOOLEAN *PBOOLEAN;
 
-typedef bool BOOL;
+typedef uint32_t BOOL;
 typedef BOOL *LPBOOL;
 
 typedef int INT;
@@ -315,15 +328,22 @@ typedef long long LONG_PTR;
 typedef unsigned long long ULONG_PTR;
 typedef unsigned long long ULONGLONG;
 
+typedef float FLOAT;
+typedef double DOUBLE;
+
 typedef uint16_t WORD;
 typedef uint32_t DWORD;
 typedef DWORD *LPDWORD;
 
+typedef uint8_t UINT8;
+typedef uint16_t UINT16;
 typedef uint32_t UINT32;
 typedef uint64_t UINT64;
 
-typedef signed char INT8, *PINT8;
-typedef signed int INT32, *PINT32;
+typedef int8_t INT8, *PINT8;
+typedef int16_t INT16, *PINT16;
+typedef int32_t INT32, *PINT32;
+typedef int64_t INT64, *PINT64;
 
 typedef size_t SIZE_T;
 typedef const char *LPCSTR;

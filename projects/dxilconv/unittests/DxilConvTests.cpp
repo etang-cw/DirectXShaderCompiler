@@ -17,7 +17,9 @@
 #include "dxc/Support/WinIncludes.h"
 #include "dxc/dxcapi.h"
 #include <algorithm>
+#ifdef _WIN32
 #include <atlfile.h>
+#endif
 #include <cassert>
 #include <cfloat>
 #include <map>

@@ -23,4 +23,6 @@ set_target_properties(dxilconv
   OUTPUT_NAME "dxilconv"
 )
 
+if(WIN32)
 add_dependencies(dxilconv DxcEtw)
+endif()

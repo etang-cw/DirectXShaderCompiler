@@ -811,7 +811,7 @@ void CShaderCodeParser::ParseInstruction(CInstruction *pInstruction) {
     m_pCurrentToken++;
     pInstruction->m_IndexableTempDecl.NumRegisters = (UINT)(*m_pCurrentToken);
     m_pCurrentToken++;
-    switch (min(4u, max(1u, (UINT)(*m_pCurrentToken)))) {
+    switch (std::min(4u, std::max(1u, (UINT)(*m_pCurrentToken)))) {
     case 1:
       pInstruction->m_IndexableTempDecl.Mask =
           D3D10_SB_OPERAND_4_COMPONENT_MASK_X;
@@ -1267,8 +1267,8 @@ void CShaderAsm::EmitInstruction(const CInstruction &instruction) {
       ENCODE_D3D11_SB_INSTRUCTION_PRECISE_VALUES(instruction.m_PreciseMask);
   OPCODE(OpCode);
 
-  for (UINT i = 0; i < min(instruction.m_ExtendedOpCodeCount,
-                           (UINT)D3D11_SB_MAX_SIMULTANEOUS_EXTENDED_OPCODES);
+  for (UINT i = 0; i < std::min(instruction.m_ExtendedOpCodeCount,
+                                (UINT)D3D11_SB_MAX_SIMULTANEOUS_EXTENDED_OPCODES);
        i++) {
     UINT Extended =
         ENCODE_D3D10_SB_EXTENDED_OPCODE_TYPE(instruction.m_OpCodeEx[i]);
